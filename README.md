@@ -29,13 +29,12 @@ The solution focuses on:
 
 ---
 
+
 # 🏗️ Solution Architecture
 
+The following diagram represents the enterprise Azure 3-Tier Application Architecture:
 
 <img src="./architecture-diagram.png" width="900">
-
-
----
 
 # ☁️ Azure Architecture Components
 
@@ -95,12 +94,54 @@ The solution focuses on:
 ---
 
 # 🔄 Application Request Flow
+```text
+              Users
+                |
+                |
+           Azure DNS
+                |
+                |
+     Azure Front Door + WAF
+                |
+                |
+       Azure Load Balancer
+                |
+        -----------------
+        |               |
+    Web Tier       Application Tier
+    (VM)              (API)
+        |               |
+        -----------------
+                |
+                |
+       Azure SQL Database
+                |
+                |
+ Backup | Monitoring | Security
+```
 
 
 
 ---
 
 # 🏗 Infrastructure as Code (Terraform)
+```
+terraform/
+
+├── main.tf
+├── variables.tf
+├── outputs.tf
+├── network.tf
+├── compute.tf
+├── loadbalancer.tf
+├── frontdoor.tf
+├── database.tf
+├── storage.tf
+├── keyvault.tf
+├── monitoring.tf
+├── security.tf
+└── backup.tf
+```
 
 
 Terraform is used to provision and manage Azure infrastructure using Infrastructure as Code principles.
@@ -113,6 +154,39 @@ Project Structure:
 ---
 
 # ⚙️ CI/CD Pipeline
+```
+Developer
+
+    |
+    |
+
+GitHub Repository
+
+    |
+    |
+
+GitHub Actions
+
+    |
+    |
+
+Terraform Validate
+
+    |
+    |
+
+Terraform Plan
+
+    |
+    |
+
+Terraform Apply
+
+    |
+    |
+
+Azure Infrastructure Deployment
+```
 
 
 GitHub Actions workflow automates Terraform deployment.
@@ -125,6 +199,32 @@ Pipeline Flow:
 ---
 
 # 🚀 Terraform Deployment Commands
+### Initialize Terraform
+
+```bash
+terraform init
+```
+
+
+### Validate Configuration
+
+```bash
+terraform validate
+```
+
+
+### Create Plan
+
+```bash
+terraform plan
+```
+
+
+### Deploy Infrastructure
+
+```bash
+terraform apply
+```
 
 
 Initialize Terraform:
