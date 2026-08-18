@@ -1,0 +1,19 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+
+# Terraform lock files
+.terraform.lock.hcl
+
+# Azure credentials
+*.pem
+*.key
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
