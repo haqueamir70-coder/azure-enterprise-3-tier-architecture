@@ -197,6 +197,33 @@ Pipeline Flow:
 
 
 ---
+---
+
+# 🏗 Terraform Components
+
+| File | Purpose |
+|---|---|
+| main.tf | Azure Provider Configuration |
+| variables.tf | Input Variables Configuration |
+| outputs.tf | Terraform Output Values |
+| network.tf | Azure VNet, Subnets, NSG |
+| compute.tf | Virtual Machines |
+| loadbalancer.tf | Traffic Distribution |
+| frontdoor.tf | Global Routing + WAF |
+| database.tf | Azure SQL Database |
+| storage.tf | Storage & Backup |
+| keyvault.tf | Secrets Management |
+| monitoring.tf | Azure Monitor & Logs |
+| security.tf | Security Controls |
+| backup.tf | Backup & Recovery |
+---
+
+# 🚀 Terraform Deployment Commands
+
+### Initialize Terraform
+
+```bash
+terraform init
 
 # 🚀 Terraform Deployment Commands
 ### Initialize Terraform
@@ -227,16 +254,7 @@ terraform apply
 ```
 
 
-Initialize Terraform:
 
-
-Validate configuration:
-
-
-Create deployment plan:
-
-
-Deploy infrastructure:
 
 
 ---
