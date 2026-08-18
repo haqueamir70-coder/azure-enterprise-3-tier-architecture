@@ -1,172 +1,214 @@
 # 🚀 Azure Enterprise 3-Tier Application Architecture
 
+<div align="center">
 
-## 📌 Project Overview
+![Azure](https://img.shields.io/badge/Microsoft%20Azure-Cloud-blue?style=for-the-badge&logo=microsoftazure)
 
-This project demonstrates an enterprise-level **3-Tier Application Architecture** designed and deployed on Microsoft Azure.
+![Terraform](https://img.shields.io/badge/Terraform-Infrastructure%20as%20Code-purple?style=for-the-badge&logo=terraform)
 
-The architecture follows cloud best practices focusing on:
+![DevOps](https://img.shields.io/badge/DevOps-Automation-green?style=for-the-badge)
 
-✅ Security  
-✅ Scalability  
+![Security](https://img.shields.io/badge/DevSecOps-Security-red?style=for-the-badge)
+
+</div>
+
+
+# 📌 Project Overview
+
+This project demonstrates an **enterprise-grade 3-Tier Application Architecture** designed on Microsoft Azure following modern cloud architecture and DevOps best practices.
+
+The solution focuses on:
+
 ✅ High Availability  
+✅ Scalability  
+✅ Security  
 ✅ Network Isolation  
-✅ Monitoring  
+✅ Infrastructure Automation  
+✅ Monitoring & Disaster Recovery  
 
 
 ---
 
-# 🏗️ Architecture Design
+# 🏗️ Solution Architecture
 
-             Users
 
-               |
+<img src="./architecture-diagram.png" width="900">
 
-          Azure DNS
-
-               |
-
-    Azure Front Door + WAF
-
-               |
-
-          Web Tier
-
-    (Frontend Application)
-
-               |
-
-               |
-
-      Application Tier
-
-    (Business Logic/API)
-
-               |
-
-               |
-
-      Data Tier
-
-   Azure SQL Database
-
-               |
-
-  Backup | Monitoring | Security
-  
 
 ---
 
-# ☁️ Azure Services Used
+# ☁️ Azure Architecture Components
 
 
-## 🌐 Networking
+## 🌐 Networking Layer
 
 - Azure Virtual Network (VNet)
 - Public & Private Subnets
 - Network Security Groups (NSG)
-- Private Endpoint
 - Azure DNS
+- Private Endpoint
 
 
-## 🖥 Compute
+## 🚀 Traffic Management
 
-- Azure Virtual Machines
+- Azure Front Door
+- Web Application Firewall (WAF)
 - Azure Load Balancer
 
 
-## 🗄 Database
+## 🖥 Compute Layer
+
+- Azure Virtual Machines
+- Application Hosting
+- Web Tier Deployment
+
+
+## 🗄 Database Layer
 
 - Azure SQL Database
+- Secure Database Connectivity
+- Private Access
 
 
-## 🔐 Security
+## 🔐 Security Layer
 
 - Azure Key Vault
-- NSG Rules
-- Private Connectivity
+- Microsoft Defender Integration
+- Network Security Rules
+- Secure Secrets Management
 
 
-## 📊 Monitoring
+## 📊 Monitoring Layer
 
 - Azure Monitor
-- Log Analytics
-- Backup & Recovery
+- Log Analytics Workspace
+- Application Insights
+
+
+## 💾 Backup & Recovery
+
+- Azure Recovery Services Vault
+- Disaster Recovery Strategy
+- Backup Management
 
 
 ---
 
-# 🔄 Application Flow
+# 🔄 Application Request Flow
 
-
-1. User accesses application through domain
-
-2. Azure DNS resolves the request
-
-3. Azure Front Door provides:
-   - Global routing
-   - WAF protection
-   - Load balancing
-
-
-4. Request reaches Web Tier
-
-5. Application Tier processes business logic
-
-6. Data is securely stored in Azure SQL Database
 
 
 ---
 
-# 🔒 Security Architecture
+# 🏗 Infrastructure as Code (Terraform)
 
 
-Security implementation includes:
+Terraform is used to provision and manage Azure infrastructure using Infrastructure as Code principles.
 
-✅ Network segmentation  
-✅ Restricted database access  
-✅ Private Endpoint connectivity  
-✅ Secure communication between layers  
-✅ Monitoring and logging  
+
+Project Structure:
+
 
 
 ---
 
-# 🛠 Technologies
+# ⚙️ CI/CD Pipeline
+
+
+GitHub Actions workflow automates Terraform deployment.
+
+
+Pipeline Flow:
+
+
+
+---
+
+# 🚀 Terraform Deployment Commands
+
+
+Initialize Terraform:
+
+
+Validate configuration:
+
+
+Create deployment plan:
+
+
+Deploy infrastructure:
+
+
+---
+
+# 🔒 Security Implementation
+
+
+Implemented security practices:
+
+
+✅ Network segmentation
+
+✅ NSG based traffic control
+
+✅ Secure secret management using Key Vault
+
+✅ WAF protection
+
+✅ Private connectivity
+
+✅ Monitoring and logging
+
+
+---
+
+# 🛠 Technology Stack
 
 
 | Technology | Purpose |
 |---|---|
 | Microsoft Azure | Cloud Platform |
-| Virtual Network | Network Isolation |
-| Virtual Machines | Application Hosting |
-| Azure SQL | Database |
 | Terraform | Infrastructure as Code |
-| Azure Monitor | Monitoring |
+| Azure Virtual Network | Network Architecture |
+| Azure VM | Compute Layer |
+| Azure SQL Database | Database Layer |
+| Azure Front Door | Global Traffic Management |
+| WAF | Application Security |
+| Azure Monitor | Observability |
+| GitHub Actions | CI/CD Automation |
 
 
 ---
 
-# 📂 Future Enhancements
+# 📈 Future Enhancements
 
 
-- Terraform deployment automation
-- CI/CD pipeline integration
-- Kubernetes deployment
-- Disaster Recovery implementation
+- Kubernetes (AKS) deployment
+- Azure Container Registry integration
+- Blue/Green deployment strategy
+- Advanced DevSecOps scanning
+- Multi-region disaster recovery
 
 
 ---
-## 🏗 Architecture Diagram
-
-![Azure 3 Tier Architecture](architecture-diagram.png)
 
 # 👨‍💻 Author
 
-**MD Amirul Haque**
+
+## MD Amirul Haque
+
+**Senior Azure DevOps Engineer | Cloud Architect | DevSecOps Specialist**
 
 
-Senior Azure DevOps Engineer
+🔗 LinkedIn:
 
-LinkedIn:
 https://www.linkedin.com/in/md-amirul-haque/
+
+
+---
+
+<div align="center">
+
+### 🚀 Building Secure, Scalable and Automated Cloud Solutions
+
+</div>
