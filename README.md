@@ -157,14 +157,14 @@ Security implementation includes:
 
 
 ---
+## 🏗 Architecture Diagram
+
+![Azure 3 Tier Architecture](architecture-diagram.png)
 
 # 👨‍💻 Author
 
 **MD Amirul Haque**
 
-## 🏗 Architecture Diagram
-
-![Azure 3 Tier Architecture](architecture-diagram.png)
 
 Senior Azure DevOps Engineer
 
