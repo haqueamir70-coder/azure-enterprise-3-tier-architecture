@@ -162,6 +162,10 @@ Security implementation includes:
 
 **MD Amirul Haque**
 
+## 🏗 Architecture Diagram
+
+![Azure 3 Tier Architecture](architecture-diagram.png)
+
 Senior Azure DevOps Engineer
 
 LinkedIn:
