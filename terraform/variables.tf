@@ -22,3 +22,10 @@ variable "sql_admin_password" {
   sensitive   = true
   nullable    = false
 }
+
+variable "ssh_public_key" {
+  description = "SSH public key for the Linux VM; never provide a private key"
+  type        = string
+  sensitive   = false
+  nullable    = false
+}
