@@ -10,7 +10,7 @@ This repository is a learning and portfolio project for modelling selected Azure
 
 ## Current configuration notes
 
-The Terraform directory currently contains configuration for a resource group, virtual network/networking, a Linux web VM, Azure SQL, Key Vault, storage, monitoring, load balancing, Front Door, security and backup resources. Some resources reference other resources or values that must be validated together before deployment. No successful deployment is claimed by this README.
+The Terraform directory contains configuration for a resource group, virtual network/networking, a Linux web VM, Azure SQL, Key Vault, storage, monitoring, load balancing, Front Door, security and backup resources. Some resources reference other resources or values that must be validated together before deployment. No successful deployment is claimed by this README.
 
 ## Prerequisites
 
@@ -24,13 +24,20 @@ The Terraform directory currently contains configuration for a resource group, v
 
 Do not place passwords or private keys in Terraform files or commit them to Git.
 
-PowerShell example:
+PowerShell example: prompt for a password without displaying it, then expose it only to the current shell process for Terraform:
 
 ```powershell
-$env:TF_VAR_sql_admin_password = Read-Host "SQL admin password" -AsSecureString
+$secure = Read-Host "SQL admin password" -AsSecureString
+$env:TF_VAR_sql_admin_password = [System.Net.NetworkCredential]::new("", $secure).Password
 ```
 
-For Terraform's environment variable interface, provide the secret as a plain environment string in your shell/session without echoing it, or use a supported secret manager. Do not paste secrets into source control or chat. Set the SSH public key using a local `terraform.tfvars` file excluded by `.gitignore`, or another secure local input mechanism.
+Clear the environment variable when finished:
+
+```powershell
+Remove-Item Env:TF_VAR_sql_admin_password
+```
+
+Set `ssh_public_key` using a local `terraform.tfvars` file excluded by `.gitignore`, or another secure local input mechanism. Use only your **public** SSH key; never provide a private key to Terraform variables or commit it.
 
 Required variables include:
 - `sql_admin_password` (sensitive, no default)
@@ -51,7 +58,7 @@ Review every planned resource, region, network exposure, and estimated cost befo
 
 ## Security notes
 
-- A hard-coded SQL password has been removed from the Terraform configuration. If the old value was ever used in a live environment, rotate it immediately; removing it from the current file does not erase it from Git history.
+- A hard-coded SQL password has been removed from the current Terraform configuration. If the old value was ever used in a live environment, rotate it immediately; removing it from the current file does not erase it from Git history.
 - The SSH key is now an input variable rather than a placeholder string. Supply your own public key.
 - Review the SQL firewall rule that uses Azure's special `0.0.0.0` rule. Prefer private connectivity and narrowly scoped network access for real workloads.
 - Key Vault purge protection, network restrictions, RBAC, diagnostics, monitoring, backups, and least-privilege access must be verified and configured for the target use case.
