@@ -1,3 +1,31 @@
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:102A43,45:0078D4,100:2DD4BF&height=190&section=header&text=Azure+Enterprise+3-Tier+Architecture&fontSize=34&fontColor=ffffff&animation=fadeIn" alt="Azure 3-tier target architecture banner" width="100%" />
+
+<img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&weight=600&size=17&pause=1200&color=00C7FF&center=true&vCenter=true&width=900&height=40&lines=Azure+Networking+%E2%80%A2+Terraform+%E2%80%A2+Web+%E2%80%A2+Data+%E2%80%A2+Security" alt="Animated project tagline" />
+
+[![Terraform](https://img.shields.io/badge/Terraform-IaC-7B42BC?style=for-the-badge&logo=terraform&logoColor=white)](https://developer.hashicorp.com/terraform)
+[![Azure](https://img.shields.io/badge/Microsoft-Azure-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)](https://azure.microsoft.com/)
+[![Portfolio](https://img.shields.io/badge/Portfolio-MD%20Amirul-181717?style=for-the-badge&logo=github)](https://github.com/haqueamir70-coder)
+
+</div>
+
+> **Portfolio project:** implementation status and limitations are documented below. The diagram describes the intended workflow/architecture and is not proof of a successful production deployment.
+
+## 🗺️ Architecture at a Glance
+
+```mermaid
+flowchart TD
+  U[Users] --> FD[Front Door / Edge]
+  FD --> W[Web / Application Tier]
+  W --> D[Private Data Tier]
+  W --> KV[Key Vault / Managed Identity]
+  W --> M[Monitoring and Diagnostics]
+  D --> M
+```
+
+---
+
 # Azure 3-Tier Application Architecture (Terraform)
 
 This repository is a learning and portfolio project for modelling selected Azure resources with Terraform. It is **not yet verified as a complete, production-ready three-tier platform**. The diagram illustrates a target architecture; check the Terraform files for the resources currently defined.
