@@ -2,12 +2,17 @@
 .terraform/
 *.tfstate
 *.tfstate.*
+*.tfvars
+*.tfvars.json
+*.tfplan
 crash.log
+crash.*.log
 
-# Terraform lock files
-.terraform.lock.hcl
+# Terraform lock files are normally committed for reproducible provider installs.
+# Uncomment the next line only if this project intentionally does not track it.
+# .terraform.lock.hcl
 
-# Azure credentials
+# Azure credentials and private keys
 *.pem
 *.key
 
