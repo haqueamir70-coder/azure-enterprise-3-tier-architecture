@@ -74,7 +74,7 @@ Review the full plan and cost before any apply. Do not commit Terraform state, p
 
 ## CI
 
-GitHub Actions runs formatting, backend-free initialization and Terraform validation on relevant pull requests and pushes. A passing CI run validates configuration syntax, not Azure deployment success or runtime connectivity.
+GitHub Actions runs formatting, backend-free initialization, Terraform validation and an advisory Checkov scan on relevant pull requests and pushes. Triage Checkov findings before treating the scan as a blocking security gate. A passing CI run validates configuration syntax, not Azure deployment success or runtime connectivity.
 
 ## Author
 
