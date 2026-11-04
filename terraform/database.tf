@@ -1,15 +1,15 @@
 # Azure SQL Server and database
-# Supply the administrator password securely at plan/apply time via
-# TF_VAR_sql_admin_password or a protected secret store. Never commit it.
+# Supply the administrator password securely via TF_VAR_sql_admin_password
+# or a protected secret store. Never commit the value to source control.
 
 resource "azurerm_mssql_server" "sql_server" {
-  name                          = "azure3tier-sql-server"
+  name                          = "azure3tier-sql-${random_string.suffix.result}"
   resource_group_name           = azurerm_resource_group.main.name
   location                      = azurerm_resource_group.main.location
   version                       = "12.0"
   administrator_login           = var.sql_admin_login
   administrator_login_password  = var.sql_admin_password
-  minimum_tls_version            = "1.2"
+  minimum_tls_version           = "1.2"
   public_network_access_enabled = false
 }
 
@@ -25,10 +25,10 @@ resource "azurerm_private_dns_zone" "sql" {
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "sql" {
-  name                  = "sql-private-dns-link"
-  private_dns_zone_id   = azurerm_private_dns_zone.sql.id
-  virtual_network_id    = azurerm_virtual_network.vnet.id
-  registration_enabled  = false
+  name                 = "sql-private-dns-link"
+  private_dns_zone_id  = azurerm_private_dns_zone.sql.id
+  virtual_network_id   = azurerm_virtual_network.vnet.id
+  registration_enabled = false
 }
 
 resource "azurerm_private_endpoint" "sql" {
