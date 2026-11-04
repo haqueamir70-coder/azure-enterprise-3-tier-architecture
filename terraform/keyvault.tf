@@ -2,7 +2,7 @@
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "keyvault" {
-  name                          = "azure3tier-keyvault001"
+  name                          = "azure3tier-kv-${random_string.suffix.result}"
   location                      = azurerm_resource_group.main.location
   resource_group_name           = azurerm_resource_group.main.name
   tenant_id                     = data.azurerm_client_config.current.tenant_id
@@ -24,10 +24,10 @@ resource "azurerm_private_dns_zone" "key_vault" {
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "key_vault" {
-  name                  = "key-vault-private-dns-link"
-  private_dns_zone_id   = azurerm_private_dns_zone.key_vault.id
-  virtual_network_id    = azurerm_virtual_network.vnet.id
-  registration_enabled  = false
+  name                 = "key-vault-private-dns-link"
+  private_dns_zone_id  = azurerm_private_dns_zone.key_vault.id
+  virtual_network_id   = azurerm_virtual_network.vnet.id
+  registration_enabled = false
 }
 
 resource "azurerm_private_endpoint" "key_vault" {
