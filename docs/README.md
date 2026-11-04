@@ -76,3 +76,7 @@ From a test VM/pod, query the service FQDN, inspect the resolved private IP, ver
 ### 10. Answer
 
 Use a reviewed plan, staged change, maintenance window if needed, baseline connectivity tests, rollback plan and post-change verification. Never apply a broad network change blindly.
+
+## Complete zero-to-hero guide
+
+See [ZERO-TO-HERO.md](./ZERO-TO-HERO.md) for the business scenario, architecture walkthrough, tool-by-tool explanations, implementation sequence, practical commands, troubleshooting playbook and additional scenario-based interview questions with answers.
