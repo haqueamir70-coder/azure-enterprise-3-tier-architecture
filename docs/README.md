@@ -80,3 +80,12 @@ Use a reviewed plan, staged change, maintenance window if needed, baseline conne
 ## Complete zero-to-hero guide
 
 See [ZERO-TO-HERO.md](./ZERO-TO-HERO.md) for the business scenario, architecture walkthrough, tool-by-tool explanations, implementation sequence, practical commands, troubleshooting playbook and additional scenario-based interview questions with answers.
+
+
+## Source-code walkthrough
+
+See [SOURCE-CODE-WALKTHROUGH.md](./SOURCE-CODE-WALKTHROUGH.md) for the actual Terraform file-by-file explanation, code-specific interview questions and implementation gaps found during source review.
+
+## Advanced question bank
+
+See [ADVANCED-INTERVIEW-BANK.md](./ADVANCED-INTERVIEW-BANK.md) for 40 additional project-specific questions and answers.
