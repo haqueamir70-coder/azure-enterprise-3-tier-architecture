@@ -33,3 +33,46 @@ flowchart TB
 
 ## Interview preparation note
 For each answer, cover the design rationale, trust boundary, failure mode, operational telemetry and validation method. Distinguish implemented, CI-validated, cloud-deployed and planned capabilities.
+
+
+## Interview questions — suggested answers
+
+### 1. Answer
+
+Separate tiers reduce blast radius and let each layer expose only required interfaces. Web handles ingress, app owns business logic, and data tier is not directly reachable by clients.
+
+### 2. Answer
+
+NSGs are distributed L3/L4 filters on NICs/subnets; Azure Firewall is a centralized stateful network security service with richer inspection, logging and egress control.
+
+### 3. Answer
+
+Allowing only TCP 1433 from the application tier limits SQL reachability to the expected protocol and source. Use private connectivity and database identity controls as well.
+
+### 4. Answer
+
+A private endpoint gives a service a private IP in the VNet. Private DNS maps the service's normal hostname to that IP so clients resolve to the private route.
+
+### 5. Answer
+
+Use an approved ingress such as Application Gateway/WAF or Front Door with controlled origin access, TLS, health probes, WAF policy and explicit routing. The repository's ingress must be verified before claiming it is implemented.
+
+### 6. Answer
+
+Public access disabled limits service exposure to private paths. Shared Key disabled reduces reliance on account keys and encourages Entra identity/RBAC.
+
+### 7. Answer
+
+Review effective NSG rules and priorities, avoid broad Any rules, test from representative subnets and ensure deny rules do not accidentally block required platform traffic.
+
+### 8. Answer
+
+VirtualNetwork can include connected networks and peered address spaces, so it may be broader than one subnet. Use explicit prefixes or ASGs where tighter scope is required.
+
+### 9. Answer
+
+From a test VM/pod, query the service FQDN, inspect the resolved private IP, verify route/NSG path and perform an authenticated connection test; also confirm public resolution/access is blocked.
+
+### 10. Answer
+
+Use a reviewed plan, staged change, maintenance window if needed, baseline connectivity tests, rollback plan and post-change verification. Never apply a broad network change blindly.
