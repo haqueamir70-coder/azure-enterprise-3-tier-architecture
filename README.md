@@ -1,103 +1,80 @@
-<div align="center">
+# Azure Enterprise 3-Tier Architecture
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:102A43,45:0078D4,100:2DD4BF&height=190&section=header&text=Azure+Enterprise+3-Tier+Architecture&fontSize=34&fontColor=ffffff&animation=fadeIn" alt="Azure 3-tier target architecture banner" width="100%" />
+> **Status:** Terraform reference lab with segmented web/app/database networks, private endpoint integrations, Key Vault RBAC, private SQL/Storage access and CI validation. It is not represented as a deployed production system.
 
-<img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&weight=600&size=17&pause=1200&color=00C7FF&center=true&vCenter=true&width=900&height=40&lines=Azure+Networking+%E2%80%A2+Terraform+%E2%80%A2+Web+%E2%80%A2+Data+%E2%80%A2+Security" alt="Animated project tagline" />
-
-[![Terraform](https://img.shields.io/badge/Terraform-IaC-7B42BC?style=for-the-badge&logo=terraform&logoColor=white)](https://developer.hashicorp.com/terraform)
-[![Azure](https://img.shields.io/badge/Microsoft-Azure-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)](https://azure.microsoft.com/)
-[![Portfolio](https://img.shields.io/badge/Portfolio-MD%20Amirul-181717?style=for-the-badge&logo=github)](https://github.com/haqueamir70-coder)
-
-</div>
-
-> **Portfolio project:** implementation status and limitations are documented below. The diagram describes the intended workflow/architecture and is not proof of a successful production deployment.
-
-## 🗺️ Architecture at a Glance
+## Architecture
 
 ```mermaid
-flowchart TD
-  U[Users] --> FD[Front Door / Edge]
-  FD --> W[Web / Application Tier]
-  W --> D[Private Data Tier]
-  W --> KV[Key Vault / Managed Identity]
-  W --> M[Monitoring and Diagnostics]
-  D --> M
+flowchart TB
+  User[User / approved ingress] --> Web[Web subnet]
+  Web -->|TCP 8080| App[Application subnet]
+  App -->|TCP 1433| SQL[Private Azure SQL]
+  App --> KV[Private Key Vault]
+  App --> Blob[Private Blob Storage]
+  subgraph VNet[Azure VNet]
+    Web
+    App
+    DBSubnet[Database subnet]
+    PESubnet[Private endpoint subnet]
+  end
+  SQL --- PESubnet
+  KV --- PESubnet
+  Blob --- PESubnet
 ```
 
----
+## Implemented configuration
 
-# Azure 3-Tier Application Architecture (Terraform)
+- Separate web, application, database and private-endpoint subnets.
+- Dedicated NSGs and subnet associations.
+- Web-to-app rule on TCP/8080 and app-to-SQL rule on TCP/1433, with explicit deny rules for other VNet sources at the app/database tiers.
+- Private Key Vault with RBAC authorization, 90-day soft delete, purge protection, default-deny network ACLs and Private Endpoint/DNS.
+- Azure SQL public network access disabled with private endpoint and private DNS; the broad 0.0.0.0 Azure-services firewall exception has been removed.
+- Storage account with HTTPS/TLS 1.2, shared-key access disabled, public network access disabled and private blob endpoint/DNS.
+- Random suffix for globally scoped Key Vault, SQL server and Storage account names.
+- Terraform formatting and backend-free validation in GitHub Actions.
 
-This repository is a learning and portfolio project for modelling selected Azure resources with Terraform. It is **not yet verified as a complete, production-ready three-tier platform**. The diagram illustrates a target architecture; check the Terraform files for the resources currently defined.
+## Important design boundaries
 
-## Repository layout
-
-- `terraform/` — Terraform root configuration
-- `architecture-diagram.png` — architecture illustration
-- `.github/` — workflow configuration, if present
-
-## Current configuration notes
-
-The Terraform directory contains configuration for a resource group, virtual network/networking, a Linux web VM, Azure SQL, Key Vault, storage, monitoring, load balancing, Front Door, security and backup resources. Some resources reference other resources or values that must be validated together before deployment. No successful deployment is claimed by this README.
+- Web ingress is not exposed directly to the Internet by the sample NSG rules. Add and validate an Application Gateway, Front Door or other approved ingress tier before serving external traffic.
+- App-to-web port 8080 is an example contract. Change it to the actual application listener after the service is implemented.
+- SQL and Storage private endpoints require private DNS resolution and a valid client route from the VNet.
+- Key Vault network reachability and RBAC authorization are independent controls. Create narrowly scoped role assignments for actual workloads.
+- The Linux VM, load balancer, Front Door and monitoring resources are separate examples and do not by themselves constitute a complete end-to-end service path.
+- Azure resources may incur charges. Validate region/SKU availability, quotas, naming and costs before applying.
 
 ## Prerequisites
 
-- Terraform installed
-- Azure CLI installed and authenticated (`az login`)
-- An Azure subscription and permissions to create the selected resources
-- An SSH public key for the Linux VM
-- A SQL administrator password supplied securely at runtime
+- Terraform CLI 1.6+
+- Azure CLI authenticated to a test subscription
+- Permission to create networking, VM, SQL, Key Vault, Storage, private endpoint and DNS resources
+- A valid SSH public key
+- A SQL administrator password supplied securely
 
-## Configure secrets safely
+## Validate
 
-Do not place passwords or private keys in Terraform files or commit them to Git.
+From the repository root:
 
-PowerShell example: prompt for a password without displaying it, then expose it only to the current shell process for Terraform:
+```bash
+terraform -chdir=terraform fmt -check -recursive
+terraform -chdir=terraform init -backend=false
+terraform -chdir=terraform validate
+terraform -chdir=terraform plan
+```
+
+For PowerShell, set the SQL password only in the current process:
 
 ```powershell
 $secure = Read-Host "SQL admin password" -AsSecureString
 $env:TF_VAR_sql_admin_password = [System.Net.NetworkCredential]::new("", $secure).Password
-```
-
-Clear the environment variable when finished:
-
-```powershell
+terraform -chdir=terraform plan
 Remove-Item Env:TF_VAR_sql_admin_password
 ```
 
-Set `ssh_public_key` using a local `terraform.tfvars` file excluded by `.gitignore`, or another secure local input mechanism. Use only your **public** SSH key; never provide a private key to Terraform variables or commit it.
+Review the full plan and cost before any apply. Do not commit Terraform state, plan files, private keys, credentials or real terraform.tfvars.
 
-Required variables include:
-- `sql_admin_password` (sensitive, no default)
-- `ssh_public_key` (public key matching the private key you own)
+## CI
 
-## Validate before any deployment
-
-Run from the `terraform/` directory:
-
-```bash
-terraform fmt -check -recursive
-terraform init
-terraform validate
-terraform plan
-```
-
-Review every planned resource, region, network exposure, and estimated cost before applying. Do not run `terraform apply` against a production subscription until validation and security review are complete.
-
-## Security notes
-
-- A hard-coded SQL password has been removed from the current Terraform configuration. If the old value was ever used in a live environment, rotate it immediately; removing it from the current file does not erase it from Git history.
-- The SSH key is now an input variable rather than a placeholder string. Supply your own public key.
-- Review the SQL firewall rule that uses Azure's special `0.0.0.0` rule. Prefer private connectivity and narrowly scoped network access for real workloads.
-- Key Vault purge protection, network restrictions, RBAC, diagnostics, monitoring, backups, and least-privilege access must be verified and configured for the target use case.
-- Do not commit Terraform state, plan files containing sensitive values, credentials, or real `terraform.tfvars` files.
-
-## Portfolio roadmap
-
-- Resolve and validate all Terraform references and provider requirements.
-- Add CI checks for format, validation, linting, and infrastructure security scanning.
-- Add documented network flow and security boundaries.
-- Add test evidence and a cost-aware teardown procedure after successful testing.
+GitHub Actions runs formatting, backend-free initialization and Terraform validation on relevant pull requests and pushes. A passing CI run validates configuration syntax, not Azure deployment success or runtime connectivity.
 
 ## Author
 
