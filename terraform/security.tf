@@ -33,6 +33,34 @@ resource "azurerm_network_security_rule" "allow_http_from_vnet" {
   network_security_group_name = azurerm_network_security_group.main.name
 }
 
+resource "azurerm_network_security_rule" "allow_app_from_web" {
+  name                        = "Allow-App-From-Web-Tier"
+  priority                    = 100
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "8080"
+  source_address_prefix       = "10.0.1.0/24"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.main.name
+  network_security_group_name = azurerm_network_security_group.app.name
+}
+
+resource "azurerm_network_security_rule" "deny_other_vnet_to_app" {
+  name                        = "Deny-Other-VNet-Sources"
+  priority                    = 4096
+  direction                   = "Inbound"
+  access                      = "Deny"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "*"
+  source_address_prefix       = "VirtualNetwork"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.main.name
+  network_security_group_name = azurerm_network_security_group.app.name
+}
+
 resource "azurerm_network_security_rule" "allow_sql_from_app" {
   name                        = "Allow-SQL-From-App-Tier"
   priority                    = 100
@@ -59,4 +87,18 @@ resource "azurerm_network_security_rule" "deny_internet_to_private_endpoints" {
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.main.name
   network_security_group_name = azurerm_network_security_group.private_endpoints.name
+}
+
+resource "azurerm_network_security_rule" "deny_other_vnet_to_database" {
+  name                        = "Deny-Other-VNet-Sources"
+  priority                    = 4096
+  direction                   = "Inbound"
+  access                      = "Deny"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "*"
+  source_address_prefix       = "VirtualNetwork"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.main.name
+  network_security_group_name = azurerm_network_security_group.database.name
 }
