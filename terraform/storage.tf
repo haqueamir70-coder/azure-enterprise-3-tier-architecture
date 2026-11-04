@@ -1,6 +1,6 @@
 # Azure Storage Account — private blob access
 resource "azurerm_storage_account" "storage" {
-  name                          = "azure3tierstorage001"
+  name                          = "az3tier${random_string.suffix.result}"
   resource_group_name           = azurerm_resource_group.main.name
   location                      = azurerm_resource_group.main.location
   account_tier                  = "Standard"
@@ -24,10 +24,10 @@ resource "azurerm_private_dns_zone" "blob" {
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "blob" {
-  name                  = "blob-private-dns-link"
-  private_dns_zone_id   = azurerm_private_dns_zone.blob.id
-  virtual_network_id    = azurerm_virtual_network.vnet.id
-  registration_enabled  = false
+  name                 = "blob-private-dns-link"
+  private_dns_zone_id  = azurerm_private_dns_zone.blob.id
+  virtual_network_id   = azurerm_virtual_network.vnet.id
+  registration_enabled = false
 }
 
 resource "azurerm_private_endpoint" "blob" {
