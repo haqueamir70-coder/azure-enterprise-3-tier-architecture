@@ -1,3 +1,15 @@
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0B1F3A,50:0078D4,100:38BDF8&height=190&section=header&text=Azure+Enterprise+3-Tier+Architecture&fontSize=32&fontColor=ffffff&animation=fadeIn" alt="Azure Enterprise 3-Tier Architecture project banner" width="100%" />
+
+<img src="https://readme-typing-svg.demolab.com/?font=Inter&weight=600&size=16&pause=1600&color=38BDF8&center=true&vCenter=true&width=900&height=36&lines=Azure+Enterprise+3-Tier+Architecture+%E2%80%A2+Architecture+%E2%80%A2+Automation+%E2%80%A2+Security" alt="Animated project focus line" />
+
+![Azure](https://img.shields.io/badge/Microsoft+Azure-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white) ![Terraform](https://img.shields.io/badge/Terraform-844FBA?style=for-the-badge&logo=terraform&logoColor=white) ![Security](https://img.shields.io/badge/Private+Networking-2563EB?style=for-the-badge)
+
+</div>
+
+---
+
 # Azure Enterprise 3-Tier Architecture
 
 > **Status:** Terraform reference lab with segmented web/app/database networks, private endpoint integrations, Key Vault RBAC, private SQL/Storage access and CI validation. It is not represented as a deployed production system.
